@@ -1,0 +1,12 @@
+{
+  "name": "commit-bloom",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Локальный интерфейс для редактирования и поочерёдной отправки Git-коммитов",
+  "type": "module",
+  "engines": { "node": ">=22.12" },
+  "scripts": {
+    "start": "node server.mjs --open",
+    "test": "node --test"
+  }
+}

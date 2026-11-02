@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="dark" />
+    <meta name="theme-color" content="#151218" />
+    <title>Commit Bloom — отправка коммитов</title>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='18' fill='%23251c28'/%3E%3Cpath d='M23 17v30m0-18c0 12 18 3 18 15V17' fill='none' stroke='%23f2aac5' stroke-width='4'/%3E%3Ccircle cx='23' cy='17' r='5' fill='%23f2aac5'/%3E%3Ccircle cx='23' cy='47' r='5' fill='%23f2aac5'/%3E%3Ccircle cx='41' cy='17' r='5' fill='%23f2aac5'/%3E%3C/svg%3E" />
+    <link rel="stylesheet" href="/styles.css" />
+    <script src="/app.js" defer></script>
+  </head>
+  <body>
+    <svg xmlns="http://www.w3.org/2000/svg" class="icon-library" aria-hidden="true">
+      <symbol id="i-branch" viewBox="0 0 24 24"><path d="M6 6v12M18 6v3a6 6 0 0 1-6 6H6"/><circle cx="6" cy="4" r="2"/><circle cx="6" cy="20" r="2"/><circle cx="18" cy="4" r="2"/></symbol>
+      <symbol id="i-folder" viewBox="0 0 24 24"><path d="M3 7a2 2 0 0 1 2-2h5l2 3h7a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></symbol>
+      <symbol id="i-chevron" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></symbol>
+      <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14m-6-6 6 6-6 6"/></symbol>
+      <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M20 7v5h-5M4 17v-5h5"/><path d="M6.3 6.3A8 8 0 0 1 20 12M4 12a8 8 0 0 0 13.7 5.7"/></symbol>
+      <symbol id="i-search" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 4 4"/></symbol>
+      <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+      <symbol id="i-copy" viewBox="0 0 24 24"><rect x="8" y="8" width="12" height="13" rx="2"/><path d="M16 8V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h3"/></symbol>
+      <symbol id="i-upload" viewBox="0 0 24 24"><path d="M12 16V3m-5 5 5-5 5 5M4 15v4a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-4"/></symbol>
+      <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12 4 4L19 6"/></symbol>
+      <symbol id="i-close" viewBox="0 0 24 24"><path d="m6 6 12 12M6 18 18 6"/></symbol>
+      <symbol id="i-file" viewBox="0 0 24 24"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9zm0 0v6h6"/><path d="M8 13h8m-8 4h5"/></symbol>
+      <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v6m0-10v.1"/></symbol>
+      <symbol id="i-git" viewBox="0 0 24 24"><path d="M3 12h6m6 0h6"/><circle cx="12" cy="12" r="3.5"/></symbol>
+      <symbol id="i-terminal" viewBox="0 0 24 24"><path d="m4 6 6 6-6 6m9 0h7"/></symbol>
+    </svg>
+
+    <header class="topbar">
+      <a class="brand" href="/" aria-label="Commit Bloom, главная">
+        <span class="brand-mark"><svg><use href="#i-branch" /></svg></span>
+        <span>commit<span class="brand-soft">bloom</span><span class="brand-period">.</span></span>
+      </a>
+      <div class="topbar-note">Немного порядка в истории.</div>
+      <span class="local-status"><span></span> Локальное приложение</span>
+    </header>
+
+    <main class="app">
+      <div class="page-heading">
+        <div><p class="eyebrow">ВАШ РИТМ. ВАША ИСТОРИЯ.</p><h1>Один коммит за раз<span>.</span></h1><p class="page-description">Сообщение, время, отправка — всё в одном месте.</p></div>
+        <div class="heading-decoration" aria-hidden="true"><svg><use href="#i-git" /></svg></div>
+      </div>
+
+      <section class="repository-panel" aria-labelledby="repo-label">
+        <form id="repository-form" class="repository-form">
+          <div class="repository-field"><label for="repository-path" id="repo-label">ПАПКА РЕПОЗИТОРИЯ</label><div class="path-input"><svg><use href="#i-folder" /></svg><input id="repository-path" autocomplete="off" spellcheck="false" placeholder="C:\путь\к\проекту" required /><button id="browse-folder" type="button" class="icon-button" aria-label="Выбрать папку" title="Выбрать папку"><span>···</span></button></div></div>
+          <button id="open-repository" class="button button-soft" type="submit">Открыть <svg><use href="#i-arrow" /></svg></button>
+        </form>
+        <div id="repository-context" class="repository-context" hidden>
+          <div class="branch-context"><span class="context-caption">ВЫ СЕЙЧАС НА ВЕТКЕ</span><div class="branch-name"><svg><use href="#i-branch" /></svg><strong id="current-branch"></strong><span class="head-label">HEAD</span></div></div>
+          <span class="context-divider"></span>
+          <div class="context-select remote-select"><svg><use href="#i-upload" /></svg><label class="visually-hidden" for="remote-select">Удалённый репозиторий</label><select id="remote-select" aria-label="Удалённый репозиторий"></select><svg class="select-chevron"><use href="#i-chevron" /></svg></div>
+          <span id="repository-status" class="repository-status" role="status"></span>
+          <button id="fetch-remote" type="button" class="text-button"><svg><use href="#i-refresh" /></svg> Обновить с сервера</button>
+        </div>
+        <div id="sync-overview" class="sync-overview" hidden aria-label="Сравнение локальной и удалённой ветки">
+          <div class="sync-card local-card"><span class="context-caption">ТОЛЬКО ЛОКАЛЬНО</span><div><strong id="ahead-count">—</strong><span>коммитов</span></div><p id="local-tip"></p></div>
+          <div class="sync-card remote-card"><span class="context-caption">ТОЛЬКО НА СЕРВЕРЕ</span><div><strong id="behind-count">—</strong><span>коммитов</span></div><p id="remote-tip"></p></div>
+          <div class="sync-target"><span class="context-caption">ЦЕЛЬ ОТПРАВКИ</span><strong id="push-target"></strong><p id="sync-freshness"></p><button id="reload-repository" type="button" class="text-button"><svg><use href="#i-refresh" /></svg> Перечитать локальную ветку</button></div>
+        </div>
+      </section>
+
+      <div id="global-notice" class="notice" role="status" hidden></div>
+
+      <section class="commit-workspace" aria-label="Работа с коммитами">
+        <aside class="commit-panel">
+          <div class="panel-title"><h2>История коммитов <span id="commit-count" class="count-badge">—</span></h2><svg class="subtle-icon"><use href="#i-git" /></svg></div>
+          <div class="list-tools"><label class="search-field"><svg><use href="#i-search" /></svg><input id="commit-search" type="search" aria-label="Поиск коммита" placeholder="Найти коммит…" autocomplete="off" /></label><div class="list-tabs" role="group" aria-label="Фильтр коммитов"><button type="button" class="list-tab active" data-filter="all" aria-pressed="true">Все</button><button type="button" class="list-tab" data-filter="pending" aria-pressed="false">Локально <span id="pending-count">0</span></button><button type="button" class="list-tab" data-filter="published" aria-pressed="false">На сервере</button></div></div>
+          <div id="commit-list" class="commit-list" role="list" aria-label="Коммиты"><div class="empty-list"><span class="empty-icon"><svg><use href="#i-branch" /></svg></span><h3>Начнём с проекта</h3><p>Откройте папку с Git-репозиторием.<br />Здесь появится история вашей ветки.</p></div></div>
+          <div id="history-footnote" class="list-footnote">Розовый — локально · зелёный — на сервере</div>
+        </aside>
+
+        <section class="editor-panel" aria-labelledby="editor-title">
+          <div id="editor-empty" class="editor-empty"><div class="empty-illustration" aria-hidden="true"><div class="illustration-line"></div><span></span><span></span><span></span><svg><use href="#i-git" /></svg></div><h2>Место для следующего шага</h2><p>Выберите коммит в истории,<br />чтобы подготовить его к отправке.</p><span class="empty-caption">БЕЗ ЛИШНИХ КОМАНД В ТЕРМИНАЛЕ</span></div>
+          <div id="commit-editor" hidden>
+            <div class="editor-heading"><div><p class="eyebrow">ВЫБРАННЫЙ КОММИТ</p><h2 id="editor-title">Подготовка к отправке</h2></div><div class="selected-identity"><span id="selected-status" class="status-badge"></span><button id="copy-hash" class="hash-button" type="button" title="Скопировать полный хэш"><span id="selected-hash"></span><svg><use href="#i-copy" /></svg></button></div></div>
+            <p id="selected-location" class="selected-location"></p>
+            <div class="editor-body">
+              <div class="section-heading"><span class="section-number">01</span><h3>Сообщение коммита</h3></div>
+              <label class="field-label" for="commit-subject">Заголовок</label><input id="commit-subject" class="subject-input" type="text" autocomplete="off" spellcheck="false" placeholder="Что изменилось?" maxlength="2000" />
+              <div class="body-label"><label class="field-label" for="commit-body">Описание <span>необязательно</span></label><span id="subject-length"></span></div><textarea id="commit-body" spellcheck="false" placeholder="Добавьте контекст или оставьте поле пустым…" rows="4"></textarea>
+
+              <div class="date-card">
+                <div class="date-card-top"><div class="date-icon"><svg><use href="#i-clock" /></svg></div><div class="date-copy"><h3>Дата и время коммита</h3><p>Для автора и коммиттера</p></div></div>
+                <label class="field-label date-mode-label" for="date-mode">При сохранении</label>
+                <select id="date-mode" class="date-input"><option value="current">Текущие дата и время</option><option value="custom">Указать вручную</option><option value="original">Сохранить исходные</option></select>
+                <div id="custom-date-fields" class="custom-date-fields" hidden>
+                  <label class="field-label" for="custom-date">Свои дата и время</label>
+                  <input id="custom-date" class="date-input" type="datetime-local" step="1" min="1970-01-01T00:00:00" max="9999-12-31T23:59:59" required aria-describedby="date-timezone" />
+                  <p id="date-timezone" class="date-timezone"></p>
+                </div>
+                <div class="date-comparison"><div><span class="mini-label">СЕЙЧАС В КОММИТЕ</span><time id="original-date">—</time></div><svg><use href="#i-arrow" /></svg><div><span class="mini-label">ПОСЛЕ СОХРАНЕНИЯ</span><time id="new-date">—</time></div></div>
+              </div>
+
+              <details id="changes-details" class="changes-details"><summary><span><svg><use href="#i-file" /></svg> Изменения в коммите <span id="file-count" class="count-badge">—</span></span><svg class="details-chevron"><use href="#i-chevron" /></svg></summary><div class="changes-content"><div class="diff-tabs"><button type="button" class="diff-tab active" data-view="files">Файлы</button><button type="button" class="diff-tab" data-view="diff">Diff</button></div><div id="file-list" class="file-list"></div><pre id="commit-diff" class="commit-diff" hidden></pre></div></details>
+              <div id="edit-impact" class="edit-impact"><svg><use href="#i-info" /></svg><p>Содержимое файлов останется прежним. При изменении сообщения или времени обновятся хэши этого и следующих коммитов.</p></div>
+            </div>
+            <div class="editor-actions"><div class="actions-row"><button id="save-commit" type="button" class="button button-outline">Сохранить</button><button id="save-and-push" type="button" class="button button-primary">Сохранить и отправить <svg><use href="#i-arrow" /></svg></button></div><div class="actions-caption"><span>На сервер отправится история до выбранного коммита.</span><button id="push-commit" class="text-button" type="button">Отправить без изменений <svg><use href="#i-upload" /></svg></button></div></div>
+          </div>
+        </section>
+      </section>
+
+      <details id="activity-panel" class="activity-panel"><summary><span><svg><use href="#i-terminal" /></svg> Журнал действий <span id="activity-count" class="count-badge">0</span></span><span id="last-activity">Готов к работе</span><svg class="details-chevron"><use href="#i-chevron" /></svg></summary><ol id="activity-list" class="activity-list"></ol></details>
+      <footer class="app-footer"><span>commitbloom<span class="brand-period">.</span></span><p>Локальный Git. Привычный репозиторий. Ваш темп.</p><span id="connection-label"><span class="connection-dot"></span> Проверка подключения…</span></footer>
+    </main>
+
+    <dialog id="review-dialog" class="review-dialog" aria-labelledby="review-title"><form method="dialog"><div class="modal-heading"><span class="modal-icon"><svg><use href="#i-git" /></svg></span><button id="cancel-review-top" class="icon-button" type="button" aria-label="Закрыть проверку"><svg><use href="#i-close" /></svg></button></div><p class="eyebrow">ПОСЛЕДНИЙ ВЗГЛЯД</p><h2 id="review-title">Всё готово к отправке?</h2><p id="review-description" class="modal-description"></p><dl id="review-summary" class="review-summary"></dl><div id="published-warning" class="published-warning" hidden><p><strong>В истории есть опубликованные коммиты.</strong> Отправка заменит их в выбранной удалённой ветке.</p><label><input id="allow-published" type="checkbox" /> Разрешить перезапись опубликованной истории</label></div><div id="review-error" class="notice error" role="alert" hidden></div><div class="modal-actions"><button id="cancel-review" class="button button-outline" type="button">Назад</button><button id="confirm-review" class="button button-primary" type="button">Подтвердить <svg><use href="#i-check" /></svg></button></div></form></dialog>
+    <div id="toast" class="toast" role="status" aria-live="polite" hidden><svg><use href="#i-check" /></svg><span></span></div>
+  </body>
+</html>
