@@ -339,7 +339,7 @@ test('failed protected push can be retried after a successful local rewrite', as
   const repo = await fixture(t);
   await git(repo.path, 'push', 'origin', 'main');
   const hook = join(repo.path, '.git', 'hooks', 'pre-push');
-  await writeFile(hook, '#!/bin/sh\nexit 1\n');
+  await writeFile(hook, '#!/bin/sh\nexit 1\n', { mode: 0o755 });
   const request = { path: repo.path, branch: 'main', remote: 'origin', oid: repo.ids[1], message: 'Сохранено, но не отправлено', useCurrentDate: false, push: true };
   const first = await applyChange({ ...request, ...await planChange(request), allowPublishedRewrite: true });
   assert.equal(first.pushed, false);

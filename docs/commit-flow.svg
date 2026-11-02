@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="200" viewBox="0 0 1000 200" role="img" aria-labelledby="title desc">
+  <title id="title">Один коммит за раз</title>
+  <desc id="desc">A уже на сервере. Отправьте B первым, затем C и D. D — вершина локальной ветки.</desc>
+  <rect x="1" y="1" width="998" height="198" rx="18" fill="#151218" stroke="#332b38"/>
+  <g font-family="Arial, sans-serif">
+    <text x="30" y="34" fill="#a499ac" font-size="11" letter-spacing="2">ВАША ИСТОРИЯ · ВАШ ТЕМП</text>
+    <path d="M80 99H920" fill="none" stroke="#644453" stroke-width="2"/>
+    <g fill="#f2abc6"><path d="m277 95 7 4-7 4z"/><path d="m517 95 7 4-7 4z"/><path d="m757 95 7 4-7 4z"/></g>
+    <rect x="30" y="59" width="220" height="110" rx="12" fill="#23352b" stroke="#5b8068"/>
+    <rect x="270" y="59" width="220" height="110" rx="12" fill="#33232f" stroke="#f2abc6" stroke-width="2"/>
+    <rect x="510" y="59" width="220" height="110" rx="12" fill="#241e28" stroke="#644453"/>
+    <rect x="750" y="59" width="220" height="110" rx="12" fill="#241e28" stroke="#644453"/>
+    <g font-size="28" font-weight="700"><text x="50" y="106" fill="#a5cbb4">A</text><text x="290" y="106" fill="#f2abc6">B</text><text x="530" y="106" fill="#f2abc6">C</text><text x="770" y="106" fill="#f2abc6">D</text></g>
+    <g font-size="12"><text x="50" y="143" fill="#a5cbb4">Уже на сервере</text><text x="290" y="143" fill="#f2abc6">Отправить первым →</text><text x="530" y="143" fill="#d9cfde">Отправить следующим</text><text x="770" y="143" fill="#d9cfde">HEAD · локальная ветка</text></g>
+  </g>
+</svg>
